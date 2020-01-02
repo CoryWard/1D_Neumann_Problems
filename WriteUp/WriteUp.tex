@@ -1,0 +1,230 @@
+\documentclass[pra,onecolumn,superscriptaddress,aps]{revtex4}
+\usepackage{amsfonts}
+\usepackage{amssymb,latexsym,amsmath}
+\usepackage{times}
+\usepackage[caption=false]{subfig}
+\usepackage[usenames]{color}
+\usepackage{graphicx,tikz}
+\usepackage{fancyvrb}
+\usepackage{IEEEtrantools}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\title{Collocation Method for Nonlocal Neumann Problems}
+
+
+\maketitle
+       
+Here we use a quadrature method to solve nonlocal Neumann problems of the type discussed in \cite{Ros-Oton}. 
+
+\section{Introduction}  
+We are interested in solving the following nonlocal Neumann boundary value problem numerically:
+\begin{equation}
+\begin{cases}
+\mathcal{L}u(x) = f(x), & x \in (-L, L) \\
+\mathcal{N}u(x) = g(x), & x \in [-L,L]^c
+\end{cases}
+\end{equation}
+where the nonlocal operators $\mathcal{L}, \mathcal{N}$ are defined as
+\begin{equation} 
+\begin{cases}
+\mathcal{L}u(x) = \int^\infty_{-\infty} [u(x) - u(y)] \nu(x-y) \; dy\\[.2cm]
+\mathcal{N}u(x) = \int^L_{-L} [u(x) - u(y)] \nu(x-y) \; dy 
+\end{cases}
+\label{eq2}
+\end{equation}
+and $\nu(y)$ is the kernel; the only difference between the two are the integration bounds. Further, $f(x), g(x)$ are a given forcing function and boundary condition, respectively. \\
+
+We'll assume the following about $\nu$:
+\begin{itemize}
+\item[(1)] $\nu(x)$ is an even function
+\item[(2)] $\nu$ is locally integrable everywhere (can't blow up at the origin)
+\item[(3)] $\int^\infty_{-\infty} \nu(y) \; dy = 1$
+\end{itemize}
+
+We will also assume that $u$ is $C^2$ except possibly at $x = \pm L$.\\
+
+Like \cite{Oberman}, the idea is to split the integral into multiple parts and then derive a discretization scheme for each piece. However, because we do not know the exact form $u$ takes outside of $(-L,L)$ (e.g., a Dirichlet condition), we can't use the same trick as \cite{Oberman} to get rid of the integrals defined outside $(-L,L)$. Regardless, it turns out you can use the Neumann BC to do something similar.\\
+
+First, we decompose the nonlocal operator $\mathcal{L}$ as
+\begin{IEEEeqnarray*}{lCl}
+\mathcal{L}u(x)  &=&   u(x) \int^\infty_{-\infty} \nu(x-y) \; dy  - \int^L_{-L} u(y) \nu(x-y) \; dy - \int_{|y| \geq L} u(y) \nu(x-y) \; dy\\[.2cm]
+&=&   u(x) - \int^L_{-L} u(y) \nu(x-y) \; dy - \int_{|y| \geq L} u(y) \nu(x-y) \; dy\\[.2cm]
+ \end{IEEEeqnarray*}
+Note that the first and second terms only depend on $u$ inside $(-L,L)$ while the third third term requires we know $u$ outside $(-L,L)$. As such, this form is problematic as any direct discretization would contain infinitely many $u(y_i)$ terms (from the last integral). In the next section we get around this by using the Neumann condition.
+ 
+\section{The Neumann Condition}
+We can rearrange the nonlocal Neumann condition as follows:
+\begin{IEEEeqnarray*}{lCl}
+g(z)  &=& \mathcal{N}u(z) \\[.2cm]
+ &=& \int^L_{-L} [u(z) - u(y)] \nu(z-y) \; dy \\[.2cm]
+&=& u(z) \int^L_{-L} \nu(z-y) \; dy  - \int^L_{-L} u(y) \nu(z-y) \; dy\\[.2cm]
+\end{IEEEeqnarray*}
+Solving for $u(z)$ then gives
+\begin{equation}
+u(z) = \frac{g(z) + \int^L_{-L} u(y) \nu(z-y) \; dy}{\int^L_{-L} \nu(z-y) \; dy}
+\end{equation}
+Note that this defines $u$ outside $(-L,L)$ strictly in terms of $u$ inside $(-L,L)$. We can use this to calculate the third integral mentioned in the previous section. First, let us rewrite this with dummy variables as,
+\[u(z) = g(z)h(z) + h(z)\int^L_{-L} u(\omega) \nu(z-\omega) \; d\omega\]
+where 
+\[h(z) = \int^L_{-L} \nu(z-\omega) \; d\omega\]
+We then have:
+\begin{IEEEeqnarray*}{lCl}
+\int_{|y| \geq L} u(y) \nu(x-y) \; dy &=&  \int_{|y| \geq L} \bigg[g(y)h(y) + h(y)\int^L_{-L} u(\omega) \nu(y-\omega) \; d\omega\bigg] \nu(x-y) \; dy  \\[.2cm]
+ &=& \int_{|y| \geq L} g(y)h(y)\nu(x-y) \; dy +  \int_{|y| \geq L} h(y)\bigg(\int^L_{-L} u(\omega) \nu(y-\omega) \; d\omega\bigg) \nu(x-y) \; dy  \\[.2cm]
+  &=& \int_{|y| \geq L} g(y)h(y)\nu(x-y) \; dy + \int^L_{-L} u(\omega) \bigg( \int_{|y| \geq L} h(y) \nu(y-\omega) \nu(x-y) \; dy \bigg) d\omega  \\[.2cm]
+%
+\end{IEEEeqnarray*}
+The last equality follows be switching the order of integration. Note that the first integral doesn't depend on $u$ and can be calculated analytically (by hand). Likewise, the term in parenthesis inside the second integral doesn't depend on $u$ and can also be calculated analytically. Provided both terms can be calculated, we see that what remains only depends on $u$ inside $(-L,L)$!
+
+\section{The Reformulated Nonlocal Operator}
+Letting
+\begin{IEEEeqnarray*}{lCl}
+f_1(x,\omega) = \int_{|y| \geq L} h(y) \nu(y-\omega) \nu(x-y) \; dy &\quad , \quad & f_2(x) = \int_{|y| \geq L} g(y)h(y)\nu(x-y) \; dy 
+%
+\end{IEEEeqnarray*}
+and collecting results, we have
+\begin{IEEEeqnarray*}{lCl}
+\mathcal{L}u(x) &=&  u(x) - \int^L_{-L} u(y) \nu(x-y) \; dy - \int_{|y| \geq L} u(y) \nu(x-y) \; dy\\[.2cm]
+&=&  u(x) - \int^L_{-L} u(y) \nu(x-y) \; dy - f_2(x) - \int^L_{-L} u(\omega) f_1(x,\omega) d\omega
+\end{IEEEeqnarray*}
+Because $\omega$ is just a dummy variable, we may write
+\begin{IEEEeqnarray*}{lCl}
+\mathcal{L}u(x) &=&  u(x) - \int^L_{-L} u(y) \nu(x-y) \; dy - f_2(x) - \int^L_{-L} u(y) f_1(x,y) dy
+\end{IEEEeqnarray*}
+or
+\begin{equation}
+\boxed{\mathcal{L}u(x) =  u(x) - f_2(x) - \int^L_{-L} u(y) \bigg(\nu(x-y) + f_1(x,y)\bigg) dy}.
+\label{eq4}
+\end{equation}
+In this form, it's clear that the nonlocal operator $\mathcal{L}$ can be calculated using data \textbf{only} on $(-L,L)$, reducing the original problem to one on a bounded domain.\\
+
+The new boundary value problem is thus
+\begin{equation*}
+u(x) - f_2(x) - \int^L_{-L} u(y) \bigg(\nu(x-y) + f_1(x,y)\bigg) dy = f(x)  \; , \quad x \in (-L,L)
+\end{equation*}
+
+\section{Discretization Scheme}
+Let $x_i = i h$, for $-M \leq i \leq M$, such that $L=Mh$. For simplicity, we assume $u, \nu, f_1 \in C^2(-L,L)$ so that we may use the Trapezoidal Rule as our discretization. We thus have
+\begin{IEEEeqnarray*}{lCl}
+\mathcal{L}u(x_i) &=&  u(x_i) - f_2(x_i) - \int^L_{-L} u(y) \bigg(\nu(x_i-y) + f_1(x_i,y)\bigg) dy \\[.2cm]
+&=&  u(x_i) - f_2(x_i) - h\bigg[u(x_{\scriptscriptstyle -M}) \frac{\nu(x_i - x_{\scriptscriptstyle -M}) + f_1(x_i, x_{\scriptscriptstyle -M})}{2} \\[.2cm]
+&& + \sum\limits^{M-1}_{j=-M+1} u(x_j)\big[\nu(x_i-x_j) + f_1(x_i,x_j)\big] \\[.2cm]
+&& + \; u(x_{\scriptscriptstyle M}) \frac{\nu(x_i - x_{\scriptscriptstyle M}) + f_1(x_i, x_{\scriptscriptstyle M})}{2}\bigg] + O\big(h^2 \big)
+\end{IEEEeqnarray*}
+Again, note that $y$ was just a dummy variable, i.e. $y_j = x_j$, and we replaced them accordingly in the trapezoidal rule.\\
+
+It's worth noting that both $u(L)$ and $u(-L)$ appear in the discretization (as $u(x_{\scriptscriptstyle M})$ and $u(x_{\scriptscriptstyle -M})$ respectively) even though our BVP is only defined on $(-L,L)$. That being said, these terms are artificial  as the value of the integral doesn't change if we remove two points. Hence, for this discretization scheme, it should be understood that $u(L)$ and $u(-L)$ are defined as those values which make $u$ continuous on $[-L,L]$. Alternatively, this problem could have been avoided from the start had we let the nonlocal operator be defined on $[-L,L]$.\\
+
+Lastly, if we drop the $O\big(h^2 \big)$ term and plug this into the boundary value problem then we will have a discretization of our system. 
+
+\subsection{Matrix Form}
+Letting $\omega_{i,j} = \nu(x_i - x_j) + f_1(x_i, x_j)$ and $\hat{u}$ denote the vector
+\begin{equation*}
+\begin{bmatrix}
+u_{\scriptscriptstyle-M} \\
+\vdots \\
+u_{\scriptscriptstyle M}
+\end{bmatrix}
+\end{equation*}, we may rewrite the operator in matrix form as
+
+\begin{equation*}
+\widehat{\mathcal{L} u} = \hat{u} - \hat{f_2} -
+h\begin{bmatrix}
+\frac{1}{2}\omega_{{\scriptscriptstyle -M},{\scriptscriptstyle -M}} 
+& \omega_{{\scriptscriptstyle -M},{\scriptscriptstyle -M+1}} 
+& \dots 
+& \omega_{{\scriptscriptstyle -M},{\scriptscriptstyle M-1}}
+& \frac{1}{2}\omega_{{\scriptscriptstyle -M},{\scriptscriptstyle M}} \\
+%%%
+\vdots & \vdots & \ddots & \vdots & \vdots\\
+%%%
+\frac{1}{2}\omega_{{\scriptscriptstyle M},{\scriptscriptstyle -M}} 
+& \omega_{{\scriptscriptstyle M},{\scriptscriptstyle -M+1}} 
+& \dots 
+& \omega_{{\scriptscriptstyle M},{\scriptscriptstyle M-1}}
+& \frac{1}{2}\omega_{{\scriptscriptstyle M},{\scriptscriptstyle M}} \\
+\end{bmatrix}\hat{u}.
+\end{equation*}
+If we let $\hat{\omega}$ be the previous matrix of $\omega_{i,j}$ terms, then we may write
+\begin{equation*}
+\widehat{\mathcal{L} u} = \hat{u} - \hat{f_2} - h \; \hat{\omega} \; \hat{u}.
+\end{equation*}
+Further, notice that $\hat{\omega}$ is a symmetric matrix since the evenness of $\nu$ implies $\omega_{i,j} = \omega_{j,i}$.
+
+\subsection{Discretized Neumann Problem}
+Collecting results, the nonlocal Neumann problem becomes the finite, symmetric, linear equation
+\begin{equation*}
+(I - h \; \hat{\omega}) \; \hat{u} = \hat{f} +  \hat{f_2}
+\end{equation*}
+
+\section{Example}
+Consider the Neumann problem
+\begin{equation}
+\begin{cases}
+\mathcal{L}u(x) = f(x), & x \in (-L, L) \\
+\mathcal{N}u(x) = g(x), & x \in [-L,L]^c
+\end{cases}
+\end{equation}
+with 
+\begin{IEEEeqnarray*}{lCl}
+\nu(y) = \frac{1}{2}e^{-|y|}.
+\end{IEEEeqnarray*}
+
+Then by direct calculation, we can calculate both $h(z)$ and $f_1(x,y)$:
+
+\begin{IEEEeqnarray*}{lCl}
+h(z) &=&  \int^L_{-L} \nu(z-\omega) \; d\omega\\[.2cm]
+&=& \begin{cases}
+\frac{1}{2} e^{-(z+L)}[e^{2L}-1] & y \geq L \\[.2cm]
+\frac{1}{2} e^{z-L}[e^{2L}-1] & y \leq L
+\end{cases} 
+\end{IEEEeqnarray*}
+
+\begin{IEEEeqnarray*}{lCl}
+f_1(x,w) &=&  \frac{1}{24} \frac{e^{2L} -1}{e^{4L}}[e^{w+x} + e^{-(w+x)}]
+\end{IEEEeqnarray*}
+
+If we now give the boundary data as $g(x) = 0$ then we have that 
+\[f_2(x) = 0\].
+
+The last ingredient we need is the forcing function $f(x)$. Since we ultimately want to test the accuracy of our numerical method, we will work backwards, giving the solution $u(x)$ and then, by plugging it directly into Eq.~\eqref{eq4}, calculating the required $f(x)$. We will do this for two cases.\\
+
+First, we take $u = x$. Letting 
+\begin{equation*}
+\alpha = \frac{13}{24} e^{-L} -\frac{1}{12} e^{-3L} + \frac{1}{24} e^{-5L} + \frac{11}{24} Le^{-L} + \frac{1}{24} Le^{-5L}
+\end{equation*}
+we have that the required $f(x)$ is
+\begin{equation*}
+f(x) = 2 \hspace{.05cm} \alpha  \hspace{.05cm} \text{sinh}(x)
+\end{equation*}
+
+For the second case, we let $u(x) = \text{sech}(x)$. In this case too an exact formula for $f(x)$ can be found, though it's rather large. Let 
+\begin{equation*}
+\beta = \frac{1}{2} \log(\frac{e^{2L} +1}{e^{2L}}) - \frac{1}{12} L e^{-2L} + \frac{1}{12} L e^{-4L}
+\end{equation*}
+and
+\begin{IEEEeqnarray*}{lCl}
+\gamma &=& \frac{1}{2} \log(e^{-2L} + 1) - \frac{1}{24} e^{-2L}\log(e^{-2L} + 1)  + \frac{1}{24} e^{-2L}\log(e^{2L} + 1)  \\[.2cm]
+&&+ \frac{1}{24} e^{-4L}\log(e^{-2L} + 1)  - \frac{1}{24} e^{-4L}\log(e^{2L} + 1)  -  \frac{1}{6} L e^{-2L} +  \frac{1}{6} L e^{-4L}.
+\end{IEEEeqnarray*}
+Then we have that
+\begin{equation*}
+f(x) = \text{sech}(x)- \frac{1}{2}e^{-x}\log(1+e^{2x}) - \frac{1}{2}e^{x}\log(1+e^{2x}) + xe^x + \beta e^x + \gamma e^{-x}
+\end{equation*}
+Notice that as $L \to \infty$, we recover the same forcing function (and solution) as we did for the Dirichlet problem. This could have probably been guessed by noting that $f_1 \to 0$ as $L \to \infty$, thereby (at least formally) reducing Eq.~\eqref{eq4} into the infinite Dirichlet equation.
+
+
+\begin{thebibliography}{99}
+
+\bibitem{Ros-Oton} S. Dipierro, X. Ros-Oton, and E. Valdinoci,
+Arxiv:1407.3313v3 (2014).
+
+  \end{thebibliography}
+
+\end{document}
+
+
+
