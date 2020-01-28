@@ -46,7 +46,7 @@ We'll assume the following about $\nu$:
 
 We will also assume that $u$ is $C^2$ except possibly at $x = \pm L$.\\
 
-Like \cite{Oberman}, the idea is to split the integral into multiple parts and then derive a discretization scheme for each piece. However, because we do not know the exact form $u$ takes outside of $(-L,L)$ (e.g., a Dirichlet condition), we can't use the same trick as \cite{Oberman} to get rid of the integrals defined outside $(-L,L)$. Regardless, it turns out you can use the Neumann BC to do something similar.\\
+The idea is to split the integral into multiple parts and then derive a discretization scheme for each piece. However, because we do not know the exact form $u$ takes outside of $(-L,L)$ (e.g., a Dirichlet condition), we can't use the same trick as \cite{Oberman} to get rid of the integrals defined outside $(-L,L)$. Regardless, it turns out you can use the Neumann BC to do something similar.\\
 
 First, we decompose the nonlocal operator $\mathcal{L}$ as
 \begin{IEEEeqnarray*}{lCl}
@@ -221,6 +221,11 @@ Notice that as $L \to \infty$, we recover the same forcing function (and solutio
 
 \bibitem{Ros-Oton} S. Dipierro, X. Ros-Oton, and E. Valdinoci,
 Arxiv:1407.3313v3 (2014).
+
+\bibitem{Oberman} Y. Huang and A. Oberman,
+SIAM J. Numer. Anal {\bf 52}, 3056 (2014).
+
+\bibitem{github} \url{https://github.com/CoryWard/1D_Neumann_Problems}
 
   \end{thebibliography}
 

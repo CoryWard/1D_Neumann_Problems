@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840) (preloaded format=pdflatex 2018.11.30)  2 JAN 2020 13:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840) (preloaded format=pdflatex 2018.11.30)  27 JAN 2020 15:38
 entering extended mode
 **./WriteUp.tex
 (WriteUp.tex
@@ -745,28 +745,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 47--48
 
  []
 
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 49.
-
-Package natbib Warning: Citation `Oberman' on page 1 undefined on input line 49
-.
-
-
-Package natbib Warning: Citation `Oberman' on page 1 undefined on input line 49
-.
-
 
 Underfull \hbox (badness 10000) in paragraph at lines 49--50
 
  []
 
 [1{/Users/cory/Library/Application Support/MiKTeX/texmfs/data/pdftex/config/pdf
-tex.map}] [2]
+tex.map}]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 102.
+
 Underfull \hbox (badness 10000) in paragraph at lines 101--103
 
  []
 
-
+[2]
 Underfull \hbox (badness 10000) in paragraph at lines 116--118
 
  []
@@ -781,40 +774,43 @@ Underfull \hbox (badness 10000) in paragraph at lines 193--194
 
  []
 
-[4]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 228.
 
-Package natbib Warning: There were undefined citations.
 
-[5] (WriteUp.aux) ) 
+("/Users/cory/Library/Application Support/MiKTeX/texmfs/install/tex/latex/psnfs
+s/ot1pcr.fd"
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+) [4] (WriteUp.aux) ) 
 Here is how much of TeX's memory you used:
- 15559 strings out of 494889
- 302803 string characters out of 3177016
- 353073 words of memory out of 3000000
- 18900 multiletter control sequences out of 15000+200000
- 15226 words of font info for 38 fonts, out of 3000000 for 9000
+ 15622 strings out of 494889
+ 303661 string characters out of 3177016
+ 353103 words of memory out of 3000000
+ 18949 multiletter control sequences out of 15000+200000
+ 19055 words of font info for 54 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
- 55i,11n,48p,618b,228s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/Users/cory/Library/Application Support/MiKTeX/texmfs/insta
-ll/fonts/enc/dvips/base/8r.enc}</Users/cory/Library/Application Support/MiKTeX/
-texmfs/install/fonts/type1/public/amsfonts/cm/cmex10.pfb></Users/cory/Library/A
-pplication Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi10.
+ 55i,11n,48p,618b,345s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/Users/cory/Library/Application Support/MiKTeX/texmfs/ins
+tall/fonts/enc/dvips/base/8r.enc}</Users/cory/Library/Application Support/MiKTe
+X/texmfs/install/fonts/type1/public/amsfonts/cm/cmex10.pfb></Users/cory/Library
+/Application Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi1
+0.pfb></Users/cory/Library/Application Support/MiKTeX/texmfs/install/fonts/type
+1/public/amsfonts/cm/cmmi5.pfb></Users/cory/Library/Application Support/MiKTeX/
+texmfs/install/fonts/type1/public/amsfonts/cm/cmmi7.pfb></Users/cory/Library/Ap
+plication Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr10.pf
+b></Users/cory/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/pu
+blic/amsfonts/cm/cmr5.pfb></Users/cory/Library/Application Support/MiKTeX/texmf
+s/install/fonts/type1/public/amsfonts/cm/cmr7.pfb></Users/cory/Library/Applicat
+ion Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></U
+sers/cory/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/
+amsfonts/cm/cmsy5.pfb></Users/cory/Library/Application Support/MiKTeX/texmfs/in
+stall/fonts/type1/public/amsfonts/cm/cmsy7.pfb></Users/cory/Library/Application
+ Support/MiKTeX/texmfs/install/fonts/type1/urw/courier/ucrr8a.pfb></Users/cory/
+Library/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/times/utmb8a.
 pfb></Users/cory/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/
-public/amsfonts/cm/cmmi5.pfb></Users/cory/Library/Application Support/MiKTeX/te
-xmfs/install/fonts/type1/public/amsfonts/cm/cmmi7.pfb></Users/cory/Library/Appl
-ication Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-</Users/cory/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/publ
-ic/amsfonts/cm/cmr5.pfb></Users/cory/Library/Application Support/MiKTeX/texmfs/
-install/fonts/type1/public/amsfonts/cm/cmr7.pfb></Users/cory/Library/Applicatio
-n Support/MiKTeX/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Use
-rs/cory/Library/Application Support/MiKTeX/texmfs/install/fonts/type1/public/am
-sfonts/cm/cmsy5.pfb></Users/cory/Library/Application Support/MiKTeX/texmfs/inst
-all/fonts/type1/public/amsfonts/cm/cmsy7.pfb></Users/cory/Library/Application S
-upport/MiKTeX/texmfs/install/fonts/type1/urw/times/utmb8a.pfb></Users/cory/Libr
-ary/Application Support/MiKTeX/texmfs/install/fonts/type1/urw/times/utmr8a.pfb>
-
-Output written on WriteUp.pdf (5 pages, 142840 bytes).
+urw/times/utmr8a.pfb>
+Output written on WriteUp.pdf (4 pages, 152899 bytes).
 PDF statistics:
- 70 PDF objects out of 1000 (max. 8388607)
+ 71 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
